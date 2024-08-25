@@ -1,0 +1,48 @@
+\section{Two Trading Teams}
+Before proceeding to solve the problem, we define the following events:
+\begin{align*}
+	W_A & : \text{We win when we play a game against team }A \\
+	W_B & : \text{We win when we play a game against team }B \\
+\end{align*}
+We win a sequence of games when we win two consecutive games in the sequence. Also, we can choose the sequence in which we play the games out of $A$-$B$-$A$ and $B$-$A$-$B$.
+Given this info, we define three more events:
+\begin{align*}
+	W   & : \text{We win two consecutive games when we play three games} \\
+	ABA & : \text{We play in the order $A$-$B$-$A$}                      \\
+	BAB & : \text{We play in the order $B$-$A$-$B$}
+\end{align*}
+We're given that team $B$ is better than team $A$, so we can say that we have a higher probability of winning against team $A$ than against team $B$.
+\begin{align}\label{eq:trade1}
+	P(W_A) > P(W_B)
+\end{align}
+\\Let's analyse our winning probability when we play in the order $A$-$B$-$A$. We can win in two ways:
+\begin{enumerate}
+	\item We win against team $A$ and team $B$, and the third match doesn't matter since we've already gotten $2$ consecutive wins.
+	      The probability of this happening is:
+	      \begin{align}\label{eq:trade1.1}
+		      P(W_A)P(W_B)
+	      \end{align}
+	\item We lose against team $A$, win against team $B$, and win against team $A$. The probability of this happening is:
+	      \begin{align}\label{eq:trade1.2}
+		      P(W_A^c)P(W_B)P(W_A) = (1-P(W_A))P(W_B)P(W_A)
+	      \end{align}
+\end{enumerate}
+The total probability of us winning when playing $A-B-A$ is the sum of the probabilities of the above two cases (\ref{eq:trade1.1}) and (\ref{eq:trade1.2}).
+\begin{align}\label{eq:trade2.1}
+	P(W \mid ABA) & = P(W_A)P(W_B) + (1-P(W_A))P(W_B)P(W_A) \nonumber \\
+	              & = P(W_A)P(W_B)(2 - P(W_A))
+\end{align}
+Similarly, we can calculate the probability of us winning when playing in the order $B-A-B$.
+\begin{align}\label{eq:trade2.2}
+	P(W \mid BAB) & = P(W_B)P(W_A) + (1-P(W_B))P(W_A)P(W_B) \nonumber \\
+	              & = P(W_B)P(W_A)(2 - P(W_B))
+\end{align}
+From (\ref{eq:trade1}), we know that
+\begin{align}\label{trade3}
+	P(W_A)                   & > P(W_B)     \nonumber     \\
+	2 - P(W_A)               & < 2 - P(W_B)\nonumber      \\
+	P(W_A)P(W_B)(2 - P(W_A)) & < P(W_B)P(W_A)(2 - P(W_B))
+\end{align}
+From (\ref{eq:trade2.1}), (\ref{eq:trade2.2}), and (\ref{trade3}), we can conclude that
+\[P(W \mid ABA) < P(W \mid BAB)\]
+$\therefore$ We should play in the order $B$-$A$-$B$ as we stand a higher chance of winning that way.

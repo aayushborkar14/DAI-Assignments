@@ -1,0 +1,96 @@
+\section{Random Variables}
+\subsection{}
+We are given the following inequalities:
+\[
+	P(Q_1 < q_1) \geq 1 - p_1 \quad \text{and} \quad P(Q_2 < q_2) \geq 1 - p_2
+\]
+We check the complementary probabilities for the events \( Q_1 \geq q_1 \) and \( Q_2 \geq q_2 \), we get the following inequalities:
+\[
+	P(Q_1 \geq q_1) = P((Q_1 < q_1)^c) = 1 - P(Q_1 < q_1)
+\]
+Given that \( P(Q_1 < q_1) \geq 1 - p_1 \), we see that:
+\[
+	P(Q_1 \geq q_1) \leq p_1
+\]
+Similarly, for \( Q_2 \), we have:
+\[
+	P(Q_2 \geq q_2) \leq p_2
+\]
+We use the probability of the union of events \( Q_1 \geq q_1 \) and \( Q_2 \geq q_2 \):
+\[
+	P[(Q_1 \geq q_1) \cup (Q_2 \geq q_2)] + P[(Q_1 \geq q_1) \cap (Q_2 \geq q_2)] = P(Q_1 \geq q_1) + P(Q_2 \geq q_2)
+\]
+Since \( P(Q_1 \geq q_1) \leq p_1 \) and \( P(Q_2 \geq q_2) \leq p_2 \), we obtain:
+\[
+	P(Q_1 \geq q_1) + P(Q_2 \geq q_2) \leq p_1 + p_2
+\]
+\[
+	P[(Q_1 \geq q_1) \cup (Q_2 \geq q_2)] + P[(Q_1 \geq q_1) \cap (Q_2 \geq q_2)] \leq p_1 + p_2
+\]
+\[
+	P[(Q_1 \geq q_1) \cup (Q_2 \geq q_2)] \leq p_1 + p_2 - P[(Q_1 \geq q_1) \cap (Q_2 \geq q_2)]
+\]
+Using \textit{De Morgan’s Law},  \( (A \cup B)^c = A^c \cap B^c \), we work with the following complementary event:
+\[
+	P[(Q_1 < q_1) \cap (Q_2 < q_2)] = P[((Q_1 \geq q_1) \cup (Q_2 \geq q_2))^c] = 1 - P[(Q_1 \geq q_1) \cup (Q_2 \geq q_2)]
+\]
+Since \( P[(Q_1 \geq q_1) \cup (Q_2 \geq q_2)] \geq 0 \), we conclude:
+\[
+	P[(Q_1 < q_1) \cap (Q_2 < q_2)] \geq 1 - (p_1 + p_2)
+\]
+This gives a lower bound on the probability that both \( Q_1 \) and \( Q_2 \) are less than \( q_1 \) and \( q_2 \).
+Claim:
+\[
+	(Q_1 < q_1) \cap (Q_2 < q_2) \subseteq \{ Q_1 Q_2 < q_1 q_2 \}
+\]
+Let \( x \in (Q_1 < q_1) \cap (Q_2 < q_2) \). This means:
+\[
+	Q_1(x) < q_1 \quad \text{and} \quad Q_2(x) < q_2
+\]
+Since both \( Q_1(x) \) and \( Q_2(x) \) are positive, their product is also positive:
+\[
+	0 < Q_1(x) Q_2(x) < q_1 q_2
+\]
+Thus, \( x \in \{ Q_1 Q_2 < q_1 q_2 \} \), proving the claim.
+Using the fact that \( (Q_1 < q_1) \cap (Q_2 < q_2) \subseteq \{ Q_1 Q_2 < q_1 q_2 \} \), we conclude:
+\[
+	P(Q_1 Q_2 < q_1 q_2) \geq P[(Q_1 < q_1) \cap (Q_2 < q_2)] \geq 1 - (p_1 + p_2)
+\]
+\[
+	P(Q_1 Q_2 < q_1 q_2) \geq 1 - (p_1 + p_2)
+\]
+
+\subsection{}
+We start by using the definition for the variance of a sample.
+
+\begin{align*}
+	\sigma^2 & = \frac{\sum_{i=1}^{n}(x_i - \mu)^2}{n - 1}
+\end{align*}
+
+Since squares are always positive, we can conclude the following inequality.
+
+\begin{align*}
+	\forall i,\; (x_i - \mu)^2 & \leq \sum_{i=1}^{n}(x_i - \mu)^2
+\end{align*}
+
+From the definition, we see that the total sum of squared deviations is equal to \( \sigma^2(n - 1) \). Hence we can further refine our inequality for our singular data point.
+
+\begin{align*}
+	(x_i - \mu)^2 & \leq \sigma^2(n - 1)
+\end{align*}
+
+Since both sides of the inequality are positive, we can conclude that it must hold even after taking the square root since it is a monotonically increasing function.
+
+\begin{align*}
+	|x_i - \mu| & \leq \sigma\sqrt{n - 1}
+\end{align*}
+
+This gives us our required result.
+
+Now we compare this with **Chebyshev's Inequality**, which is stated as follows:
+
+\[
+	P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}
+\]
+
+As $n$ increases we see that the probability of the deviation being more than $\sigma\sqrt{n - 1}$ decreases as $\frac{1}{n - 1}$ which is true since the previous inequality implies that all deviations lie within $\sigma\sqrt{n - 1}$. Hence Chebyshev's inequality is more accurate for larger sample sizes.

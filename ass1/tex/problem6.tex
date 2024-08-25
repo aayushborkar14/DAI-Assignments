@@ -1,0 +1,82 @@
+\section{Update Functions}
+All following results assume $1$-based indexing. However, the code written below follows $0$-based indexing.
+\begin{itemize}
+	\item Old mean:
+	      \[
+		      \mu = \frac{\sum_{i = 1}^{n} x_i}{n}
+	      \]
+	      Updated mean:
+	      \[
+		      \mu' = \frac{\sum_{i = 1}^{n + 1} x_i}{n + 1}
+	      \]
+	      We can split the term $\sum_{i = 1}^{n + 1} = \sum_{i = 1}^{n} + x_{n + 1} = n\mu + x_{n+1}$
+	      \[
+		      \mu' = \frac{n\mu + x_{n+1}}{n+1}
+	      \]
+	\item Old median:
+	      \[
+		      \text{In sorted Array A of even length, median = } (A[n/2 + 1] + A[n/2]) / 2
+	      \]
+	      \[
+		      \text{In sorted Array A of odd length, median = } A[(n+1)/2]
+	      \]
+	      Updated median:
+	      \[
+		      \text{In a sorted array of even length, median } =
+		      \begin{cases}
+			      \text{\texttt{NewData}} & \text{if \texttt{NewData} lies between } A[n/2] \text{ and } A[n/2 + 1] \\
+			      A[n/2]                  & \text{if \texttt{NewData} is less than } A[n/2]                         \\
+			      A[n/2 + 1]              & \text{if \texttt{NewData} is greater than } A[n/2 + 1]
+		      \end{cases}
+	      \]
+
+	      \[
+		      \text{In a sorted array of odd length, median } =
+		      \begin{cases}
+			      \frac{A[(n+1)/2] + A[(n-1)/2]}{2}              & \text{if \texttt{NewData} } \leq A[(n-1)/2]                        \\
+			      \frac{A[(n+1)/2] + A[(n+3)/2]}{2}              & \text{if \texttt{NewData} } \geq A[(n+3)/2]                        \\
+			      \frac{A[(n+1)/2] + \text{\texttt{NewData}}}{2} & \text{if } A[(n-1)/2] \leq \text{\texttt{NewData}} \leq A[(n+3)/2]
+		      \end{cases}
+	      \]
+	\item Old Standard Deviation:
+	      \[
+		      \sigma^2 = \frac{(\sum_{i = 1}^{n} x_i^2) - n\mu^2}{n - 1}
+	      \]
+	      New Standard Deviation:
+	      \[
+		      \sigma'^2 = \frac{(\sum_{i = 1}^{n+1} x_i^2) - (n+1)\mu'^2}{n}
+	      \]
+	      We can split the term $\sum_{i = 1}^{n + 1}x_i^2 = \sum_{i = 1}^{n}x_i^2 + x_n^2$
+	      \[
+		      \sigma'^2 = \frac{(n - 1)\sigma^2 + n\mu^2 + x_n^2 - (n + 1)\mu'^2}{n}
+	      \]
+	      \begin{lstlisting}[language=Python, caption={Python code to calculate new Mean, Median and Standard deviation}]
+def newMean (OldMean: float, NewDataValue: float, n: int, A: list[float]) -> float:
+    oldSum = OldMean * n
+    newSum = oldSum + NewDataValue
+    return newSum / (n + 1)
+
+def newMedian (OldMedian: float, NewDataValue: float, n: int, A: list[float]) -> float:
+    # Assuming sorted list A
+    if n % 2 == 0:
+        if A[n // 2 - 1] <= NewDataValue <= A[n // 2]:
+            return NewDataValue
+        elif NewDataValue < A[n // 2 - 1]:
+            return A[n // 2 - 1]
+        else:
+            return A[n // 2]
+    else:
+        if NewDataValue <= A[n // 2 - 1]:
+            return (A[n // 2 - 1] + A[n // 2]) / 2
+        elif NewDataValue >= A[n//2 + 1]:
+            return (A[n // 2] + A[n // 2 + 1]) / 2
+        else:
+            return (A[n // 2] + NewDataValue) / 2
+
+def newStd (OldMean: float, OldStd: float, NewMean: float, NewDataValue: float, n: int, A: list[float]) -> float:
+    oldSquareSum = ((OldStd ** 2) * (n - 1)) + (n * (OldMean ** 2))
+    newSquareSum = oldSquareSum + (NewDataValue ** 2)
+    return ((newSquareSum - ((n + 1) * (NewMean) ** 2)) / n) ** 0.5
+    \end{lstlisting}
+	      To update the histogram, we check which bin \texttt{NewData} lies in. If no such bin exists, we create a new one with just \texttt{NewData}.
+\end{itemize}

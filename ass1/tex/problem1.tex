@@ -1,0 +1,55 @@
+\section{Let's Gamble}
+
+\paragraph{
+	A can either win after both of them throwing \( n \) throws each, or A can win on the last throw by drawing in the first \( n \) throws and getting one more win in the last throw. In the first case, the last throw from A does not matter, and in the latter, A needs to win the last throw.\\\\
+}
+
+We define the following events:
+\begin{align*}
+	E_A & : \text{A has more wins after \( n \) throws}                      \\
+	E_B & : \text{B has more wins after \( n \) throws}                      \\
+	E_D & : \text{A and B have the same number of wins after \( n \) throws}
+\end{align*}
+
+The probability that A is leading after \( n \) throws must be equal to the probability that B is leading after \( n \) throws:
+
+\[
+	P(E_A) = P(E_B)
+\]
+
+Also, we have:
+
+\[
+	P(E_A) + P(E_B) + P(E_D) = 1
+\]
+
+Thus,
+
+\[
+	P(E_A) = \frac{1 - P(E_D)}{2}
+\]
+
+To find the probability that A will have more wins, we consider both cases where A could win:
+
+1. A wins after \( n \) throws: This is already covered by \( P(E_A) \).
+
+2. A wins on the last throw given that both A and B have the same number of wins after \( n \) throws: The probability of A winning the last throw is \(\frac{1}{2}\), and the probability of ending in a draw after \( n \) throws is \( P(E_D) \).
+
+
+Combining these,
+
+\[
+	P(\text{A having more wins}) = P(E_A) + P(\text{A winning on the last throw} \mid E_D) \times P(E_D)
+\]
+
+\[
+	P(\text{A having more wins}) = \frac{1 - P(E_D)}{2} + \frac{1}{2} \times P(E_D)
+\]
+
+\[
+	P(\text{A having more wins}) = \frac{1 - P(E_D) + P(E_D)}{2}
+\]
+
+\[
+	P(\text{A having more wins}) = \frac{1}{2}
+\]
