@@ -1,0 +1,37 @@
+name: Compile LaTeX documents
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up LaTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          latexmk_use_lualatex: true # You can change this to pdflatex or xelatex if needed
+
+      - name: Find, compile, and rename PDFs
+        run: |
+          for folder in ass*/; do
+            cd "$folder"
+            latexmk -pdf main.tex
+            cd -
+            mv "$folder/main.pdf" "${folder%/}.pdf"
+          done
+
+      - name: Upload PDF artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: PDFs
+          path: ass*.pdf
