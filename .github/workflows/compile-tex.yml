@@ -19,9 +19,10 @@ jobs:
       - name: Set up LaTeX
         uses: xu-cheng/latex-action@v3
         with:
+          root_file: ${{ matrix.folder }}/main.tex
           latexmk_use_lualatex: true # You can change this to pdflatex or xelatex if needed
 
-      - name: Find, compile, and rename PDFs
+      - name: Find and compile LaTeX documents
         run: |
           for folder in ass*/; do
             cd "$folder"
