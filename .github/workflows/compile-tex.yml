@@ -1,38 +1,31 @@
-name: Compile LaTeX documents
+name: Build LaTeX Documents
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build:
+  build_latex:
     runs-on: ubuntu-latest
-
+    container:
+      image: texlive/texlive:latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Set up Git repository
+        uses: actions/checkout@v4
 
-      - name: Set up LaTeX
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: ${{ matrix.folder }}/main.tex
-          latexmk_use_lualatex: true # You can change this to pdflatex or xelatex if needed
-
-      - name: Find and compile LaTeX documents
+      - name: Build LaTeX documents
         run: |
-          for folder in ass*/; do
-            cd "$folder"
-            latexmk -pdf main.tex
-            cd -
-            mv "$folder/main.pdf" "${folder%/}.pdf"
+          for dir in ass*/; do
+            cd "$dir"
+            latexmk -pdf -file-line-error -interaction=nonstopmode
+            mv main.pdf "../${dir%/}.pdf"
+            cd ..
           done
 
-      - name: Upload PDF artifacts
-        uses: actions/upload-artifact@v3
+      - name: Upload PDFs as artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: PDFs
-          path: ass*.pdf
+          path: ./*.pdf
