@@ -14,18 +14,63 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          set-safe-directory: true
+
+      - name: Configure Git Safe Directory
+        run: git config --global --add safe.directory /__w/DAI-TeX/DAI-TeX
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            A*/**/**.tex
+          dir_names: true
+          dir_names_max_depth: "1"
+
+      - name: List all changed files
+        run: echo "CHANGED_DIRS=${{ steps.changed-files.outputs.all_changed_files }}"
+
+      - name: Download previous release assets
+        if: ${{ steps.changed-files.outputs.all_changed_files != '' }}
+        run: |
+          response=$(curl --write-out "%{http_code}" --silent --output response.json "https://api.github.com/repos/${{ github.repository }}/releases/latest")
+          if [ "$response" -eq 200 ]; then
+            latest_release=$(cat response.json)
+            latest_release_url=$(echo "$latest_release" | jq -r .assets_url)
+            curl --silent -H "Authorization: token ${{ secrets.CUSTOM_GITHUB_TOKEN }}" "$latest_release_url" | \
+            jq -r '.[].browser_download_url' | xargs -n 1 curl -LO -o build/$(basename {} )
+          else
+            echo "No previous release found or error retrieving release. HTTP Status: $response"
+          fi
 
       - name: Build LaTeX documents
+        if: ${{ steps.changed-files.outputs.all_changed_files != '' }}
         run: |
-          for dir in ass*/; do
+          mkdir -p build
+          for dir in ${{ steps.changed-files.outputs.all_changed_files }}; do
             cd "$dir"
             latexmk -pdf -file-line-error -interaction=nonstopmode
-            mv main.pdf "../${dir%/}.pdf"
+            rm -f "../build/${dir}.pdf"
+            mv main.pdf "../build/${dir}.pdf"
             cd ..
           done
 
-      - name: Upload PDFs as artifacts
-        uses: actions/upload-artifact@v4
+      - name: Set Release Time
+        run: |
+          echo "RELEASE_TIME=$(date +%Y%m%d-%H%M%S)" >> ${GITHUB_ENV}
+
+      - name: Create new release with all PDFs
+        if: ${{ steps.changed-files.outputs.all_changed_files != '' }}
+        uses: softprops/action-gh-release@v2
         with:
-          name: PDFs
-          path: ./*.pdf
+          files: |
+            build/*.pdf
+          name: "DAI-${{ env.RELEASE_TIME }}"
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          tag_name: "dai-assignments-${{ env.RELEASE_TIME }}"
+          draft: false
+          prerelease: false
+          make_latest: "true"
