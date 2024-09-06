@@ -12,5 +12,13 @@ To show that $Y$ is uniform on $(0, 1)$, we need to show that the cumulative dis
 This shows that $Y \sim \textrm{Uniform}(0,1)$.
 
 \subsection*{Task B}
+\begin{algorithm}
+	\caption{Obtaining Gaussian Distribution from a Uniform Distribution}
+	\begin{algorithmic}
+		\State Sample $y \sim Y$
+		\State Sample $a\sim F_X^{-1}(y)$
+		\State return $a$
+	\end{algorithmic}
+\end{algorithm}
 
 
