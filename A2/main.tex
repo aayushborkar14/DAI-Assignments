@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{../nirav}
+\usepackage[thinc]{esdiff}
+\usepackage{cleveref}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{url}
+\usepackage{amsmath,amssymb}
+
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\DeclareMathOperator{\EX}{\mathbb{E}} % Expected value
+
+\newcommand{\myname}{Aayush Borkar, Sandeep Reddy Nallamilli, Yash Sabale}
+\newcommand{\rollNumbers}{23B0944, 23B1006, 23B1043}
+\newcommand{\topicname}{DAI Assignment 2}
+
+\begin{document}
+\lstset{
+	backgroundcolor=\color{gray!10}, % Set the background color
+	numbers=left, % Display line numbers
+	numberstyle=\tiny\color{gray}, % Style for the line numbers
+	breaklines=true, % Enable line breaking
+	basicstyle=\small\ttfamily, % Set the basic style for the code
+	literate={␣}{}{0\discretionary{ }{}{}}, % Replace non-breaking space with regular space
+	keywordstyle=\color{blue}, % Style for keywords
+	commentstyle=\color{gray}, % Style for comments
+	stringstyle=\color{green!50!black}, % Style for strings
+	% morekeywords={*,...}, % Add more keywords if needed
+	showstringspaces=false % Do not emphasize spaces in strings
+}
+\thispagestyle{empty}
+
+\titleBC
+\tableofcontents
+\clearpage
+
+% write here
+\input{tex/problem2.tex}
+\input{tex/problem5.tex}
+
+\newpage
+\nocite{*}
+\addcontentsline{toc}{section}{Bibliography}
+
+\bibliographystyle{plainurl}
+\bibliography{references}
+\end{document}

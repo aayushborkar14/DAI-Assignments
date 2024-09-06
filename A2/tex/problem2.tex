@@ -1,0 +1,16 @@
+\section{Normal Sampling}
+\subsection*{Task A}
+We know that the cdf of a $\textrm{Uniform}(0,1)$ random variable is given by $F_X(x) = x$ for $0\leq x\leq 1$.
+To show that $Y$ is uniform on $(0, 1)$, we need to show that the cumulative distribution function of $Y$ is $F_Y(u) = u$ for $0 leq u \leq 1$.
+\begin{align*}
+	F_Y(u) & = P\{Y \leq u\}           \\
+	       & = P\{F_X(X) \leq u\}      \\
+	       & = P\{X \leq F_X^{-1}(u)\} \\
+	       & = F_X(F_X^{-1}(u))        \\
+	       & = u
+\end{align*}
+This shows that $Y \sim \textrm{Uniform}(0,1)$.
+
+\subsection*{Task B}
+
+

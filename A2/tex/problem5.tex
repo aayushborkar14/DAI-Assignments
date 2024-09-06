@@ -1,0 +1,107 @@
+\section{A Pretty "Normal" Mixture}
+\subsection*{Task A}
+Let the output of the algorithm is $f_{\cal{A}}$, which is to be determined.
+First we define an event as below.
+\[A_i\text{ : Random Variable }X_i\text{ is chosen}\]
+According to the given algorithm, we first select a Gaussian variable $X_i$ with probability $P[A_i]=p_i$, and then sample from $X_i$.
+Once any $X_i$ is selected, we sample from that $X_i$, with probability $P[X_i = x]$ (i.e., the PDF of gaussian variable $X_i$). From this, it directly follows that $P[X=x\mid A_i] = P[X_i = x]$.
+Using law of total probability, we write
+\begin{align*}
+	P[X=u]                             & = \sum_{i=1}^K P[X=u\mid A_i]P[A_i] \\
+	\therefore f_{\cal{A}}(u) = P[X=u] & = \sum_{i=1}^K p_i P[X_i=u]
+\end{align*}
+The above expression is equal to $f_X(u)$.
+
+\subsection*{Task B}
+We know that the following properties of a Gaussian random variable $X_i \sim \mathcal{N}(\mu_i, \sigma_i^2)$:
+\begin{align}
+	\EX[X_i]   & = \mu_i \label{eqn:E1}                                  \\
+	\Var[X_i]  & = \sigma_i^2 \label{eqn:V1}                             \\
+	M_{X_i}(t) & = e^{\mu_i t + \frac{\sigma_i^2 t^2}{2}} \label{eqn:M1}
+\end{align}
+From $\Var[X_i]$, we can also calculate $\EX[X_i^2]$ as
+\begin{align}
+	\Var[X_i]  & = \EX[X_i^2] - \EX[X_i]^2 \nonumber \\
+	\EX[X_i^2] & = \Var[X_i] + \EX[X_i]^2 \nonumber  \\
+	\EX[X_i^2] & = \sigma_i^2 + \mu_i^2
+\end{align}
+\subsubsection*{1. $\EX[X]$}
+\begin{align*}
+	\EX[X] & = \int_{-\infty}^{\infty} x f_X(x) \, dx                    \\
+	       & = \int_{-\infty}^{\infty} x \sum_{i=1}^K p_i P[X_i=x] \, dx \\
+	       & = \sum_{i=1}^K p_i \int_{-\infty}^{\infty} x P[X_i=x] \, dx \\
+	       & = \sum_{i=1}^K p_i \EX[X_i]
+\end{align*}
+From \cref{eqn:E1}, we have
+\begin{align}
+	\therefore \EX[X] & = \sum_{i=1}^K p_i \mu_i \label{eqn:E2}
+\end{align}
+\subsubsection*{2. $\Var[X]$}
+To calculate $\Var[X]$, we first calculate $\EX[X^2]$.
+\begin{align*}
+	\EX[X^2] & = \int_{-\infty}^{\infty} x^2 f_X(x) \, dx                    \\
+	         & = \int_{-\infty}^{\infty} x^2 \sum_{i=1}^K p_i P[X_i=x] \, dx \\
+	         & = \sum_{i=1}^K p_i \int_{-\infty}^{\infty} x^2 P[X_i=x] \, dx \\
+	         & = \sum_{i=1}^K p_i \EX[X_i^2]                                 \\
+\end{align*}
+
+From \cref{eqn:V1}, we get
+\begin{align}
+	\EX[X^2] & = \sum_{i=1}^K p_i (\sigma_i^2 + \mu_i^2) \label{eqn:V2}
+\end{align}
+And then, we proceed to calculate $\Var[X]$ using \cref{eqn:E2} and \cref{eqn:V2}.
+\begin{align}
+	\Var[X]            & = \EX[X^2] - \EX[X]^2                                                             \nonumber      \\
+	\therefore \Var[X] & = \sum_{i=1}^K p_i (\sigma_i^2 + \mu_i^2) - \left(\sum_{i=1}^K p_i \mu_i\right)^2 \label{eqn:V3}
+\end{align}
+
+\subsubsection*{3. \normalfont the MGF $M_X(t)$ of $X$}
+\begin{align*}
+	M_X(t) & = \EX[e^{tX}]                                                    \\
+	       & = \int_{-\infty}^{\infty} e^{tx} f_X(x) \, dx                    \\
+	       & = \int_{-\infty}^{\infty} e^{tx} \sum_{i=1}^K p_i P[X_i=x] \, dx \\
+	       & = \sum_{i=1}^K p_i \int_{-\infty}^{\infty} e^{tx} P[X_i=x] \, dx \\
+	       & = \sum_{i=1}^K p_i M_{X_i}(t)
+\end{align*}
+From \cref{eqn:M1}, we get
+\begin{align}
+	\therefore M_X(t) & = \sum_{i=1}^K p_i e^{\mu_i t + \frac{\sigma_i^2 t^2}{2}} \label{eqn:M2}
+\end{align}
+
+\subsection{Task C}
+For this task, we are given a random variable $Z$ as follows,
+\[Z = \sum_{i=1}^K p_i X_i\]
+
+\subsubsection*{1. $\EX[X]$}
+This can be calculated using linearity of expectation.
+\begin{align*}
+	\EX[Z] & = \sum_{i=1}^K p_i \EX[X_i] \\
+	       & = \sum_{i=1}^K p_i \mu_i
+\end{align*}
+
+\subsubsection*{4. \normalfont the MGF $M_Z(t)$ of $Z$}
+To simplify the calculation of Variance, we calculate the Moment Generating Function of $Z$ first.
+\begin{align}
+	M_Z(t) & = \EX[e^{tZ}] \nonumber
+	= \EX[e^{t\sum_{i=1}^K p_i X_i}] \nonumber                                                                          \\
+	       & = \EX[\prod_{i=1}^K e^{tp_i X_i}] \nonumber
+	= \prod_{i=1}^K \EX[e^{tp_i X_i}] \nonumber                                                                         \\
+	       & = \prod_{i=1}^K M_{X_i}(tp_i) \nonumber
+	= \prod_{i=1}^K e^{tp_i \mu_i + \frac{t^2 p_i^2 \sigma_i^2}{2}}\nonumber                                            \\
+	       & = \exp\left({\sum_{i=1}^K p_i \mu_i t + \frac{t^2 \sum_{i=1}^K p_i^2 \sigma_i^2}{2}} \right)\label{eqn:M3}
+\end{align}
+
+\subsubsection*{2. $\Var[Z]$}
+The variance is the second derivative of the MGF at $t=0$.
+We first calculate the first and second derivatives of $M_Z(t)$, from \cref{eqn:M3}.
+\begin{align}
+	\diff{M_Z(t)}{t}    & = \left(\sum_{i=1}^K p_i \mu_i + t \sum_{i=1}^K p_i^2 \sigma_i^2 \nonumber\right) M_Z(t)                                                         \\
+	\diff[2]{M_Z(t)}{t} & = \left(\sum_{i=1}^K p_i^2 \sigma_i^2\right) M_Z(t) + \left(\sum_{i=1}^K p_i \mu_i + t\sum_{i=1}^Kp_i^2\sigma_i^2\right)^2 M_Z(t) \label{eqn:M4}
+\end{align}
+Now, substituting $t=0$ in \cref{eqn:M4}, we get the variance of $Z$.
+\begin{align}
+	\Var[Z] & = \sum_{i=1}^K p_i^2 \sigma_i^2 + \left(\sum_{i=1}^K p_i \mu_i\right)^2 \label{eqn:V4}
+\end{align}
+
+\subsubsection*{3. \normalfont the PDF $f_Z(u)$ of $Z$}
+
