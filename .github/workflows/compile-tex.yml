@@ -36,12 +36,10 @@ jobs:
       - name: Download previous release assets
         if: ${{ steps.changed-files.outputs.all_changed_files != '' }}
         run: |
-          response=$(curl --write-out "%{http_code}" --silent --output response.json "https://api.github.com/repos/${{ github.repository }}/releases/latest")
+          response=$(curl --output response.json -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.CUSTOM_GITHUB_TOKEN }}" -H "X-GitHub-Api-Version: 2022-11-28" "https://api.github.com/repos/${{ github.repository }}/releases/latest")
+          mkdir -p build
           if [ "$response" -eq 200 ]; then
-            latest_release=$(cat response.json)
-            latest_release_url=$(echo "$latest_release" | jq -r .assets_url)
-            curl --silent -H "Authorization: token ${{ secrets.CUSTOM_GITHUB_TOKEN }}" "$latest_release_url" | \
-            jq -r '.[].browser_download_url' | xargs -n 1 curl -LO -o build/$(basename {} )
+            jq -r '.assets[] | "\(.id) \(.name)"' response.json | while read -r id name; do curl -L -H "Accept: application/octet-stream" -H "Authorization: Bearer {{ secrets.CUSTOM_GITHUB_TOKEN }}" -H "X-GitHub-Api-Version: 2022-11-28" "https://api.github.com/repos/${{ github.repository }}/releases/assets/$id" --output "build/$name"; done
           else
             echo "No previous release found or error retrieving release. HTTP Status: $response"
           fi
@@ -73,4 +71,3 @@ jobs:
           tag_name: "dai-assignments-${{ env.RELEASE_TIME }}"
           draft: false
           prerelease: false
-          make_latest: "true"
