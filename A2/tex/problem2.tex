@@ -67,8 +67,8 @@ from scipy.stats import norm
 mpl.rcParams["figure.dpi"] = 300
 
 def sample(loc, scale):
-    y = np.random.uniform(0, 1)
-    x = norm.ppf(y, loc=loc, scale=scale)
+    y = np.random.uniform(0, 1) # sample y from uniform[0, 1]
+    x = norm.ppf(y, loc=loc, scale=scale) # get F_X^{-1}(y)
     return x
 
 N = 10**5
