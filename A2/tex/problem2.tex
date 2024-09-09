@@ -178,28 +178,31 @@ So, we can write the probability of $X=2i$ as:
 	\cref{eq:exp-approx} is valid for $x$ small.
 	\cref{eq:stirling-approx} is valid for large $n$.
 \end{remark}
-We first substitue $2i$ for $i$, and $k$ for $\dfrac{h}{2}$ in \cref{eq:probx2i}.
+We first substitute $2i$ for $i$, and $k$ for $\dfrac{h}{2}$ in \cref{eq:probx2i}.
 \begin{align*}
 	P_h[X=i] & = \binom{h}{\frac{h-i}{2}} \left(\frac{1}{2}\right)^h
 \end{align*}
 Now, we will simplify the binomial coefficient term using \cref{eq:stirling-approx}.
 \begin{align*}
-	\binom{h}{\frac{h-i}{2}}\left(\frac{1}{2}\right)^h & = \frac{h!}{2^h\left(\frac{h-i}{2}\right)!\left(\frac{h+i}{2}\right)!}                                                                                                                              \\
-	                                                   & \approx \frac{\sqrt{2\pi h}\left(\frac{h}{e}\right)^h}{2^h\sqrt{2\pi \frac{h-i}{2}}\left(\frac{h-i}{2e}\right)^\frac{h-i}{2}\sqrt{2\pi \frac{h+i}{2}}\left(\frac{h+i}{2e}\right)^\frac{h+i}{2}}     \\
-	                                                   & = \sqrt{\frac{2\pi h}{\pi(h-i)\pi(h+i)} }\left(\frac{h}{2e}\right)^h \left(\frac{\frac{h-i}{2e}}{\frac{h+i}{2e}}\right)^\frac{i}{2}\left(\frac{1}{\frac{h-i}{2e} \frac{h+i}{2e}}\right)^\frac{h}{2} \\
-	                                                   & = \sqrt{\frac{2}{\pi h}}\left(\frac{h}{2e}\right)^h \left(\frac{1-\frac{i}{h}}{1+\frac{i}{h}}\right)^\frac{i}{2}\left(\frac{(2e)^2}{h^2-i^2}\right)^\frac{h}{2}                                     \\
+	\binom{h}{\frac{h-i}{2}}\left(\frac{1}{2}\right)^h & = \frac{h!}{2^h\left(\frac{h-i}{2}\right)!\left(\frac{h+i}{2}\right)!}                                                                                                                                         \\
+	                                                   & \approx \frac{\sqrt{2\pi h}\left(\frac{h}{e}\right)^h}{2^h\sqrt{2\pi \frac{h-i}{2}}\left(\frac{h-i}{2e}\right)^\frac{h-i}{2}\sqrt{2\pi \frac{h+i}{2}}\left(\frac{h+i}{2e}\right)^\frac{h+i}{2}}                \\
+	                                                   & = \sqrt{\frac{2\pi h}{\pi(h-i)\pi(h+i)} }\left(\frac{h}{2e}\right)^h \left(\frac{\frac{h-i}{2e}}{\frac{h+i}{2e}}\right)^\frac{i}{2}\left(\frac{1}{\frac{h-i}{2e} \frac{h+i}{2e}}\right)^\frac{h}{2}            \\
+	                                                   & = \sqrt{\frac{2 h}{\pi \left(h^2-i^2\right)}}\left(\frac{h}{2e}\right)^h \left(\frac{1-\frac{i}{h}}{1+\frac{i}{h}}\right)^\frac{i}{2}\left(\frac{(2e)^2}{h^2-i^2}\right)^\frac{h}{2}                           \\
+	                                                   & = \sqrt{\frac{2 h}{\pi \left(h^2-i^2\right)}}\left(\frac{h}{2e}\right)^h \left(\frac{1-\frac{i}{h}}{1+\frac{i}{h}}\right)^\frac{i}{2}\left(\frac{(2e)^2}{h^2\left(1-\frac{i^2}{h^2}\right)}\right)^\frac{h}{2} \\
+	                                                   & = \sqrt{\frac{2 h}{\pi \left(h^2-i^2\right)}}\left(\frac{h}{2e}\right)^h \left(\frac{1-\frac{i}{h}}{1+\frac{i}{h}}\right)^\frac{i}{2}\left(\frac{2e}{h}\right)^h\left(1-\frac{i^2}{h^2}\right)^{-\frac{h}{2}}  \\
+	                                                   & = \sqrt{\frac{2 h}{\pi \left(h^2-i^2\right)}} \left(\frac{1-\frac{i}{h}}{1+\frac{i}{h}}\right)^\frac{i}{2}\left(1-\frac{i^2}{h^2}\right)^{-\frac{h}{2}}
 \end{align*}
-Since we are given that $i << \sqrt{h}$, we can approximate $h^2-i^2 \approx h^2$, and we can use \cref{eq:binomial-approx} to get $\left(1-\frac{i}{h}\right)^\frac{i}{2} \approx 1-\frac{i^2}{2h}$ and $\left(1+\frac{i}{h}\right)^{-\frac{i}{2}} = 1 - \frac{i^2}{2h} $.
+Since we are given that $i << \sqrt{h}$, we can approximate $h^2-i^2 \approx h^2$. Also, we can use \cref{eq:binomial-approx} and \cref{eq:exp-approx} to make the following approximations:
 \begin{align*}
-	\binom{h}{\frac{h-i}{2}}\left(\frac{1}{2}\right)^h & \approx \sqrt{\frac{2}{\pi h}}\left(\frac{h}{2e}\right)^h \left(1-\frac{i^2}{2h}\right)\left(1-\frac{i^2}{2h}\right)\left(\frac{(2e)^2}{h^2}\right)^\frac{h}{2} \\
-	                                                   & = \sqrt{\frac{2}{\pi h}}\left(\frac{h}{2e}\right)^h \left(1-\frac{i^2}{2h}\right)^2\left(\frac{2e}{h}\right)^h                                                  \\
+	\left(1-\frac{i}{h}\right)^\frac{i}{2}        & \approx 1-\frac{i^2}{2h}  \approx e^{-\frac{i^2}{2h}}  \\
+	\left(1+\frac{i}{h}\right)^{-\frac{i}{2}}     & \approx 1 - \frac{i^2}{2h} \approx e^{-\frac{i^2}{2h}} \\
+	\left(1-\frac{i^2}{h^2}\right)^{-\frac{h}{2}} & \approx 1 + \frac{i^2}{2h} \approx e^\frac{i^2}{2h}
 \end{align*}
-We can further approximate $\left(1-\frac{i^2}{2h}\right)^2 \approx 1 - \frac{i^2}{h} \approx e^{-\frac{i^2}{h}}$ using \cref{eq:binomial-approx} and \cref{eq:exp-approx}.
-
+Now, we simply the expression with the new approximations.
 \begin{align*}
-	\binom{h}{\frac{h-i}{2}}\left(\frac{1}{2}\right)^h & \approx \sqrt{\frac{2}{\pi h}}\left(\frac{h}{2e}\right)^h e^{-\frac{i^2}{h}}\left(\frac{2e}{h}\right)^h     \\
-	                                                   & \approx \frac{1}{\sqrt{\pi h}} e^{-\frac{i^2}{h}}                                                           \\
-	\therefore P_h[X=i]                                & \approx \frac{1}{\sqrt{\pi h}} e^{-\frac{i^2}{h}} = \textrm{PDF of } \mathcal{N}\left(0, \frac{h}{2}\right)
+	\binom{h}{\frac{h-i}{2}}\left(\frac{1}{2}\right)^h & \approx \sqrt{\frac{2 h}{\pi h^2}}e^{-\frac{i^2}{2h}}e^{-\frac{i^2}{2h}}e^{\frac{i^2}{2h}} \\
+	                                                   & = \sqrt{\frac{2}{\pi h}} e^{-\frac{i^2}{2h}}                                               \\
+	\therefore P_h[X=i]                                & \approx \frac{1}{\sqrt{\pi k}} e^{-\frac{i^2}{4k}}
 \end{align*}
 This shows that the distribution of $X$ converges to a Gaussian distribution as $h$ increases.
 
