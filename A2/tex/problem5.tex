@@ -13,18 +13,22 @@ Using law of total probability, we write
 The above expression is equal to $f_X(u)$.
 
 \subsection*{Task B}
-We know that the following properties of a Gaussian random variable $X_i \sim \mathcal{N}(\mu_i, \sigma_i^2)$:
-\begin{align}
-	\EX[X_i]   & = \mu_i \label{eqn:E1}                                  \\
-	\Var[X_i]  & = \sigma_i^2 \label{eqn:V1}                             \\
-	M_{X_i}(t) & = e^{\mu_i t + \frac{\sigma_i^2 t^2}{2}} \label{eqn:M1}
-\end{align}
-From $\Var[X_i]$, we can also calculate $\EX[X_i^2]$ as
-\begin{align}
-	\Var[X_i]  & = \EX[X_i^2] - \EX[X_i]^2 \nonumber \\
-	\EX[X_i^2] & = \Var[X_i] + \EX[X_i]^2 \nonumber  \\
-	\EX[X_i^2] & = \sigma_i^2 + \mu_i^2
-\end{align}
+\begin{remark}
+	We know that the following properties of a Gaussian random variable $X_i \sim \mathcal{N}(\mu_i, \sigma_i^2)$:
+	\begin{align}
+		\EX[X_i]   & = \mu_i \label{eqn:E1}                                                               \\
+		\Var[X_i]  & = \sigma_i^2 \label{eqn:V1}                                                          \\
+		M_{X_i}(t) & = e^{\mu_i t + \frac{\sigma_i^2 t^2}{2}} \label{eqn:M1}                              \\
+		f_{X_i}(u) & = \frac{1}{\sqrt{2\pi\sigma_i^2}}e^{-\frac{(u-\mu_i)^2}{2\sigma_i^2}} \label{eqn:F1}
+	\end{align}
+	From $\Var[X_i]$, we can also calculate $\EX[X_i^2]$ as
+	\begin{align}
+		\Var[X_i]  & = \EX[X_i^2] - \EX[X_i]^2 \nonumber \\
+		\EX[X_i^2] & = \Var[X_i] + \EX[X_i]^2 \nonumber  \\
+		\EX[X_i^2] & = \sigma_i^2 + \mu_i^2
+	\end{align}
+\end{remark}
+
 \subsubsection*{1. $\EX[X]$}
 \begin{align*}
 	\EX[X] & = \int_{-\infty}^{\infty} x f_X(x) \, dx                    \\
@@ -68,16 +72,16 @@ From \cref{eqn:M1}, we get
 	\therefore M_X(t) & = \sum_{i=1}^K p_i e^{\mu_i t + \frac{\sigma_i^2 t^2}{2}} \label{eqn:M2}
 \end{align}
 
-\subsection{Task C}
+\subsection*{Task C}
 For this task, we are given a random variable $Z$ as follows,
 \[Z = \sum_{i=1}^K p_i X_i\]
 
 \subsubsection*{1. $\EX[X]$}
 This can be calculated using linearity of expectation.
-\begin{align*}
-	\EX[Z] & = \sum_{i=1}^K p_i \EX[X_i] \\
-	       & = \sum_{i=1}^K p_i \mu_i
-\end{align*}
+\begin{align}
+	\EX[Z]            & = \sum_{i=1}^K p_i \EX[X_i] \nonumber  \\
+	\therefore \EX[Z] & = \sum_{i=1}^K p_i \mu_i \label{eq:E4}
+\end{align}
 
 \subsubsection*{4. \normalfont the MGF $M_Z(t)$ of $Z$}
 To simplify the calculation of Variance, we calculate the Moment Generating Function of $Z$ first.
@@ -98,10 +102,70 @@ We first calculate the first and second derivatives of $M_Z(t)$, from \cref{eqn:
 	\diff{M_Z(t)}{t}    & = \left(\sum_{i=1}^K p_i \mu_i + t \sum_{i=1}^K p_i^2 \sigma_i^2 \nonumber\right) M_Z(t)                                                         \\
 	\diff[2]{M_Z(t)}{t} & = \left(\sum_{i=1}^K p_i^2 \sigma_i^2\right) M_Z(t) + \left(\sum_{i=1}^K p_i \mu_i + t\sum_{i=1}^Kp_i^2\sigma_i^2\right)^2 M_Z(t) \label{eqn:M4}
 \end{align}
-Now, substituting $t=0$ in \cref{eqn:M4}, we get the variance of $Z$.
+Now, substituting $t=0$ in \cref{eqn:M4}, we get $\EX[Z^2]$, and finally $\Var[Z]$.
 \begin{align}
-	\Var[Z] & = \sum_{i=1}^K p_i^2 \sigma_i^2 + \left(\sum_{i=1}^K p_i \mu_i\right)^2 \label{eqn:V4}
+	\EX[Z^2]           & = \sum_{i=1}^K p_i^2 \sigma_i^2 + \left(\sum_{i=1}^K p_i \mu_i\right)^2 \nonumber                                         \\
+	\Var[Z]            & = \EX[Z^2] - \EX[Z]^2 \nonumber                                                                                           \\
+	                   & = \sum_{i=1}^K p_i^2 \sigma_i^2 + \left(\sum_{i=1}^K p_i \mu_i\right)^2 - \left(\sum_{i=1}^K p_i \mu_i\right)^2 \nonumber \\
+	\therefore \Var[Z] & = \sum_{i=1}^K p_i^2 \sigma_i^2 \label{eqn:V4}
 \end{align}
 
 \subsubsection*{3. \normalfont the PDF $f_Z(u)$ of $Z$}
+Observe that the MGF of $Z$ can be written as
+\begin{align*}
+	M_Z(t)                                        & = \exp\left(\mu t + \frac{t^2\sigma^2}{2} \right)       \\
+	\textrm{Where, } \mu = \sum_{i=1}^K p_i \mu_i & \textrm{ and } \sigma^2 = \sum_{i=1}^K p_i^2 \sigma_i^2
+\end{align*}
+This MGF is the same as that of a Gaussian random variable, from \cref{eqn:M1}.
+We state the following theorem, with proof for finite discrete case in \hyperref[taskD]{Task D}.
+\begin{theorem}\label{thm:MGF-PDF}
+	For a random variable $X$, if it is
+	\begin{enumerate}
+		\item either finite and discrete,
+		\item or if it is continuous and its MGF $\phi_X(t)$ is known for some (non-infinitesimal) interval,
+	\end{enumerate}
+	then its MGF and PDF \textbf{uniquely} determine each other.
+\end{theorem}
+Knowing that $Z$ has a Gaussian MGF and hence a Gaussian PDF, we can conclude that $Z$ is a Gaussian random variable.
+And from \cref{eqn:F1}, we can find the PDF of $Z$.
+\begin{align}
+	Z                 & \sim \mathcal{N}\left(\sum_{i=1}^K p_i\mu_i, \sum_{i=1}^K p_i^2\sigma_i^2 \right)                                                                    \label{eq:gaussian-dist} \\
+	\therefore f_z(u) & = \frac{1}{\sqrt{2\pi \sum_{i=1}^K p_i^2 \sigma_i^2}} \exp\left(-\frac{\left(u-\sum_{i=1}^K p_i\mu_i\right)^2}{2\sum_{i=1}^K p_i^2 \sigma_i^2}\right) \label{eq:P4}
+\end{align}
 
+\subsubsection*{5. \normalfont What can you conclude? Do $X$ and $Z$ have the same properties?}
+No, $X$ and $Z$ have different properties. Everything except the mean is different for both.
+
+\subsubsection*{6. \normalfont What distribution does $Z$ seem to follow?}
+$Z$ follows a Gaussian distribution, as seen in \cref{eq:gaussian-dist}.
+
+\subsection*{Task D}\label{taskD}
+In this task, we prove \cref{thm:MGF-PDF} for the finite discrete case.
+\begin{remark}
+	For a discrete random variable, we consider PMF instead of PDF, and use $f_X(u)$ to denote the PMF of $X$.
+\end{remark}
+Consider two random variables $X:\Omega \to \mathbb{R}$ and $Y:\Omega\to\mathbb{R}$, with $\Omega = \{\omega_1, \omega_2,\cdots, \omega_k\}$, with equal MGFs, i.e., $M_X(t) = M_Y(t)\,\forall t\in\mathbb{R}$.
+The MGF of $X$ can be written as
+\begin{align*}
+	M_X(t) & = \EX[e^{tX}]                              \\
+	       & = \sum_{i=1}^K e^{t\omega_i} f_X(\omega_i) \\
+\end{align*}
+Given that $M_X(t) = M_Y(t)$, we have the following equation.
+\begin{align*}
+	M_X(t)                                                                 & = M_Y(t)                                   \\
+	\sum_{i=1}^K e^{t\omega_i} f_X(\omega_i)                               & = \sum_{i=1}^K e^{t\omega_i} f_Y(\omega_i) \\
+	\sum_{i=1}^K e^{t\omega_i} \left(f_X(\omega_i) -  f_Y(\omega_i)\right) & = 0
+\end{align*}
+We introduce the following notation to simplify the calculations.
+\begin{align*}
+	z                                      & = e^t  \implies z > 0                   \\
+	c_i                                    & = f_X(\omega_i) - f_Y(\omega_i)         \\
+	\implies \sum_{i=1}^K z^{\omega_i} c_i & = 0\hspace{1em}\forall z\in\mathbb{R}^+
+\end{align*}
+
+\begin{claim}
+	All $c_i$'s are zero.
+\end{claim}
+\begin{proof}
+
+\end{proof}
