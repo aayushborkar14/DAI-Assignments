@@ -144,28 +144,68 @@ In this task, we prove \cref{thm:MGF-PDF} for the finite discrete case.
 \begin{remark}
 	For a discrete random variable, we consider PMF instead of PDF, and use $f_X(u)$ to denote the PMF of $X$.
 \end{remark}
-Consider two random variables $X:\Omega \to \mathbb{R}$ and $Y:\Omega\to\mathbb{R}$, with $\Omega = \{\omega_1, \omega_2,\cdots, \omega_k\}$, with equal MGFs, i.e., $M_X(t) = M_Y(t)\,\forall t\in\mathbb{R}$.
+Consider two random variables $X:\Omega \to \mathbb{R}$ and $Y:\Omega\to\mathbb{R}$, with $\Omega = \{\omega_1, \omega_2,\cdots, \omega_k\}$.
 The MGF of $X$ can be written as
 \begin{align*}
 	M_X(t) & = \EX[e^{tX}]                              \\
-	       & = \sum_{i=1}^K e^{t\omega_i} f_X(\omega_i) \\
+	       & = \sum_{i=1}^k e^{t\omega_i} f_X(\omega_i) \\
 \end{align*}
-Given that $M_X(t) = M_Y(t)$, we have the following equation.
+
+We prove the theorem in both directions, i.e.,
+\begin{enumerate}
+	\item If the PDF's are equal, then the MGF's are equal.
+	\item If the MGF's are equal, then the PDF's are equal.
+\end{enumerate}
+
+\subsubsection*{Proving that $f_X=f_Y \implies M_X = M_Y$}
+Given that $f_X(u)=f_Y(u)$ $\forall u\in\mathbb{R}$, we can directly compute $M_X$ and $M_Y$ and show that they are equal.
+\begin{align*}
+	M_X(t)         & = \sum_{i=1}^k e^{t\omega_i} f_X\left(\omega_i\right) \hspace{1em}\forall t\in\mathbb{R}
+	= \sum_{i=1}^k e^{t\omega_i} f_Y\left(\omega_i\right)                                                     \\
+	M_X(t)         & = M_Y(t) \hspace{1em} \forall t\in\mathbb{R}                                             \\
+	\therefore M_X & = M_Y
+\end{align*}
+
+\subsubsection*{Proving that $M_X=M_Y \implies f_X = f_Y$}
+Given that $M_X(t) = M_Y(t)$ $\forall t\in \mathbb{R}$, we have the following equation.
 \begin{align*}
 	M_X(t)                                                                 & = M_Y(t)                                   \\
-	\sum_{i=1}^K e^{t\omega_i} f_X(\omega_i)                               & = \sum_{i=1}^K e^{t\omega_i} f_Y(\omega_i) \\
-	\sum_{i=1}^K e^{t\omega_i} \left(f_X(\omega_i) -  f_Y(\omega_i)\right) & = 0
+	\sum_{i=1}^k e^{t\omega_i} f_X(\omega_i)                               & = \sum_{i=1}^k e^{t\omega_i} f_Y(\omega_i) \\
+	\sum_{i=1}^k e^{t\omega_i} \left(f_X(\omega_i) -  f_Y(\omega_i)\right) & = 0
 \end{align*}
 We introduce the following notation to simplify the calculations.
 \begin{align*}
-	z                                      & = e^t  \implies z > 0                   \\
-	c_i                                    & = f_X(\omega_i) - f_Y(\omega_i)         \\
-	\implies \sum_{i=1}^K z^{\omega_i} c_i & = 0\hspace{1em}\forall z\in\mathbb{R}^+
+	z                                      & = e^t  \implies z > 0           \\
+	c_i                                    & = f_X(\omega_i) - f_Y(\omega_i) \\
+	\implies \sum_{i=1}^k z^{\omega_i} c_i & = 0\hspace{1em}\forall z>0
 \end{align*}
 
-\begin{claim}
+\begin{claim}\label{claim:coeff-zero}
 	All $c_i$'s are zero.
 \end{claim}
 \begin{proof}
-
+	Assume, for the sake of contradiction, that there exists some $c_i \neq 0$. Let $c_m$ be such a non-zero $c_i$ with the smallest $i$, i.e., $m = \min\{i: c_i \neq 0\}$.
+	\begin{align}
+		\sum_{i=1}^k z^{\omega_i} c_i & = 0   \hspace{1em} \forall z > 0            \nonumber           \\
+		\sum_{i=m}^k z^{\omega_i} c_i & = 0\textrm{ as } c_i = 0 \textrm{ for } i < m \label{eq:coeff1}
+	\end{align}
+	Now, we divide the \cref{eq:coeff1} by $z^{\omega_m}$. We get
+	\begin{align}
+		\sum_{i=m+1}^k z^{\omega_i - \omega_m} c_i + c_m & = 0\label{eq:coeff2}
+	\end{align}
+	Taking limit as $z \to 0^+$ on both sides of \cref{eq:coeff2}, we get
+	\begin{align*}
+		\lim_{z\to 0^+} \sum_{i=m+1}^k z^{\omega_i - \omega_m} c_i + c_m & = 0 \\
+		c_m                                                              & = 0
+	\end{align*}
+	$\therefore$ A contradiction. Hence, all $c_i$'s are zero.
 \end{proof}
+Following claim \ref{claim:coeff-zero}, we have $c_i = 0$ $\forall i$.
+\begin{align*}
+	c_i = f_X(\omega_i) - f_Y(\omega_i) & = 0 \hspace{1em} \forall i                                   \\
+	f_X(\omega_i)                       & = f_Y(\omega_i) \hspace{1em} \forall i                       \\
+	\textrm{Also, }	f_X(u) = 0          & \textrm{ and } f_Y(u)=0 \hspace{1em} \forall u \notin \Omega \\
+	f_X(u)                              & = f_Y(u) \hspace{1em}\forall u\in \mathbb{R}                 \\
+	\therefore	f_X                      & = f_Y
+\end{align*}
+This completes out proof for \cref{thm:MGF-PDF} in the finite discrete case.
