@@ -1,1 +1,127 @@
 \section{Quality in Inequalitites}
+\subsection*{Task A}
+\begin{claim}
+	Let \(X\) be a random variable and \(a\) a threshold. The probability \(P[X \geq a]\) can be bounded as follows:
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		\mathbb{E}(X) & = \int_{K=0}^{\infty} K \cdot P[X = K]                                     \\
+		              & = \int_{K=0}^{a} K \cdot P[X = K] + \int_{K=a}^{\infty} K \cdot P[X = K]   \\
+		              & = \int_{K=a}^{\infty} K \cdot P[X = K] + \int_{K=0}^{a-1} K \cdot P[X = K] \\
+		              & \geq \int_{K=a}^{\infty} a \cdot P[X = K]                                  \\
+		              & = a \cdot \int_{K=a}^{\infty} P[X = K]                                     \\
+		              & = a \cdot P[X \geq a]
+	\end{align*}
+	Thus,
+	\[
+		P[X \geq a] \leq \frac{\mathbb{E}(X)}{a}
+	\]
+\end{proof}
+
+\subsection*{Task B}
+\begin{claim}
+	Let \(X\) be a random variable with mean \(\mu\) and variance \(\sigma^2\). For any \(\tau > 0\) and \(u \geq 0\), the probability \(P[X - \mu \geq \tau]\) can be bounded by \(\frac{\sigma^2}{\tau^2 + \sigma^2}\)
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		P[X - \mu \geq \tau] & = P[(X - \mu) + u \geq \tau + u]                      \\
+		                     & \leq P[(X - \mu + u)^2 \geq (\tau + u)^2]             \\
+		                     & \leq \frac{\mathbb{E}[(X - \mu + u)^2]}{(\tau + u)^2} \\
+		                     & = \frac{\sigma^2 + u^2}{(\tau + u)^2}
+	\end{align*}
+	Choosing \(u = \frac{\sigma^2}{\tau}\), we get:
+	\begin{align*}
+		P[X - \mu \geq \tau] & \leq \frac{\sigma^2}{\tau^2 + \sigma^2}
+	\end{align*}
+\end{proof}
+
+\subsection*{Task C}
+\begin{claim}
+	For a random variable \(X\) with moment generating function \(M_X(t)\), the probability bounds are given by:
+\end{claim}
+\begin{proof}
+	Using Markov's inequality
+	\begin{align*}
+		P[e^{tX} \geq e^{tx}] & \leq \mathbb{E}[e^{tX}] \cdot e^{-tx}         \\
+		                      & = M_X(t) \cdot e^{-tx}                        \\
+		P[X \geq x]           & \leq M_X(t) \cdot e^{-tx} \quad \forall t > 0 \\
+		P[X \leq x]           & \leq M_X(t) \cdot e^{-tx} \quad \forall t < 0
+	\end{align*}
+\end{proof}
+
+\subsection*{Task D: Chernoff Bound for Sum of i.i.d. Random Variables}
+\begin{claim}
+	Let \(X_i\) be i.i.d. random variables with mean \(p\). For the sum \(Y = \sum_{i=1}^n X_i\):
+\end{claim}
+\begin{proof}
+	\textbf{1)}
+	\begin{align*}
+		Y             & = \sum_{i=1}^{n} X_i             \\
+		\text{Using linearity of Expectation: }          \\
+		\mathbb{E}(Y) & = \sum_{i=1}^{n} \mathbb{E}(X_i) \\
+		              & = n \cdot p
+	\end{align*}
+\end{proof}
+\textbf{2)}
+\begin{claim}
+	\(P[Y \geq (1 + \delta)\mu]\) is bounded by \(\frac{e^{\mu (e^t - 1)}}{e^{t(1 + \delta)\mu}}\)
+\end{claim}
+\begin{proof}
+	Bounds on Moment generating function:
+	\begin{align*}
+		M_Y(t) & = \prod_{i=1}^{n} [p e^t + (1 - p)]                                       \\
+		       & = (p e^t + (1 - p))^n                                                     \\
+		       & = e^{n \ln(p e^t + (1 - p))}                                              \\
+		       & \leq e^{n p (e^t-1)} \text{ (since } \ln(p e^t + (1 - p)) \leq p (e^t-1)) \\
+		       & \leq e^{\mu (e^t - 1)}
+	\end{align*}
+	Using Markov's inequality:
+	\begin{align*}
+		P[e^{tY} \geq e^{t(1 + \delta)\mu}] & \leq \frac{\mathbb{E}[e^{tY}]}{e^{t(1 + \delta)\mu}} \\
+		P[Y \geq (1 + \delta)\mu]           & \leq \frac{e^{\mu (e^t - 1)}}{e^{t(1 + \delta)\mu}}
+	\end{align*}
+\end{proof}
+
+\begin{claim}
+	To minimize the bound and find optimal t : \(\frac{d}{dt} \left( \frac{e^{\mu(e^t - 1)}}{e^{t(1 + \delta)\mu}} \right) = 0\)
+\end{claim}
+\begin{proof}
+	\textbf{3)}
+	\begin{align*}
+		\text{Minimize } \frac{e^{\mu(e^t - 1)}}{e^{t(1 + \delta)\mu}}                                                                                             \\
+		\frac{d}{dt} \left( \frac{e^{\mu(e^t - 1)}}{e^{t(1 + \delta)\mu}} \right) & = e^{\mu(e^t - 1)} \cdot \mu e^t - e^{t(1 + \delta)\mu} \cdot (1 + \delta) \mu \\
+		                                                                          & = 0                                                                            \\
+		\therefore t                                                              & = \ln(1 + \delta)
+	\end{align*}
+	Substituting \( t = \ln(1 + \delta) \):
+	\begin{align*}
+		P[Y \geq (1 + \delta)\mu] & \leq \frac{e^{\mu \delta}}{(1 + \delta)^{(1 + \delta)\mu}}
+	\end{align*}
+\end{proof}
+
+\subsection*{Task E}
+\begin{claim}
+	The Chernoff bounds are:\\
+	\begin{itemize}
+		\item \(P[Y\geq (1+\delta)\mu] \leq e^{\frac{-\delta^2}{2+\delta}\mu} \hspace{1em}\forall \delta >0 \)
+		\item \(P[Y\leq (1-\delta)\mu] \leq e^{\frac{-\delta^2}{2}\mu} \hspace{1em}\forall 0< \delta < 1\)
+	\end{itemize}
+\end{claim}
+\begin{proof}
+	The first bound can be proven by taking the bound we got in Task D and using the fact that \(\ln(1+x) \geq \frac{x}{1+x/2}\) and the second bound can be proved similarly by taking \(t < 0, \delta <0\) and using the fact that \(-1/2 > -1/(2-\delta)\) \(\forall 0<\delta<1\).
+\end{proof}
+\begin{claim}
+	\(\lim_{x\to\infty} P[|A_n - \mu|] > \epsilon \) = 0
+\end{claim}
+\begin{proof}
+	\paragraph{Let \(S_n = \sum_{i=1}^n X_i \), and \(\delta = \frac{\epsilon}{\mu n }\) \\ Using chernoff bounds}
+	\begin{align*}
+		P[S_n - n \mu \geq n \epsilon]            & \leq e^{\frac{-\epsilon ^2}{\mu (2\mu +\epsilon)}\mu n}                                  \\
+		P[S_n - n\mu \leq - n\epsilon]            & \leq e^{\frac{-\epsilon ^2}{2\mu}n}                                                      \\
+		P[|A_n-\mu| > \epsilon]                   & = P[S_n - n \mu > n \epsilon] + P[S_n - n\mu < - n\epsilon]                              \\
+		P[|A_n-\mu| > \epsilon]                   & \leq P[S_n - n\mu \geq n\epsilon] + P[S_n - n\mu \leq - n\epsilon]                       \\
+		P[|A_n-\mu| > \epsilon]                   & \leq e^{\frac{-\epsilon ^2}{\mu (2\mu +\epsilon)}\mu n} + e^{\frac{-\epsilon ^2}{2\mu}n} \\
+		\lim_{x\to\infty} P[|A_n-\mu| > \epsilon] & \leq 0
+	\end{align*}
+\end{proof}
+

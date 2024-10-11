@@ -1,1 +1,154 @@
 \section{Mathemagic}
+\subsection*{Task A: Bernoulli Distribution}
+\begin{claim}
+	Let \(X \sim \text{Ber}(p)\). The probability generating function (PGF) of \(X\) is given by \(pz + (1-p)\)
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		G_{\textrm{Ber}}(z) & = \sum_{n=0}^\infty P[X = n]z^n                                     \\
+		                    & = P[X = 0] z^0 + P[X = 1]z^1 + \sum_{n=2}^\infty P[X = n]\times z^n \\
+		                    & = (1-p) + pz + 0                                                    \\
+		                    & = pz + (1-p)
+	\end{align*}
+\end{proof}
+
+\subsection*{Task B: Binomial Distribution}
+\begin{claim}
+	Let \(X \sim \text{Bin}(n, p)\). The PGF of \(X\) is \((G_{\mathrm{Ber}})^n\)
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		G_{\textrm{Bin}}(z) & = \sum_{k=0}^\infty P[X = k]z^k                                            \\
+		                    & = \sum_{k=0}^n P[X = k]z^k + \sum_{k=n+1}^\infty P[X = k]z^k               \\
+		                    & = \sum_{k=0}^n \binom{n}{k} \times p^k \times (1-p)^{n-k} \times z^{k} + 0 \\
+		                    & = \sum_{k=0}^n \binom{n}{k} (pz)^k (1-p)^{n-k}                             \\
+		                    & = (pz + (1-p))^n                                                           \\
+		                    & = (G_{\textrm{Ber}})^n
+	\end{align*}
+\end{proof}
+
+\subsection*{Task C: Sum of Independent Random Variables}
+\begin{claim}
+	Let \(X = X_1 + X_2 + \dots + X_k\), where \(X_i\)'s are independent, non-negative random variables with the same PGF. The PGF of \(X\) is \([G(z)]^k\)
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		G_{\Sigma}(z) & = \mathbb{E}[z^X]                         \\
+		              & = \mathbb{E}[z^{X_1 + X_2 + \dots + X_k}]
+	\end{align*}
+	Using independence of the \(X_i\)'s:
+	\begin{align*}
+		G_{\Sigma}(z) & = \mathbb{E}[z^{X_1}] \cdot \mathbb{E}[z^{X_2}] \cdot \dots \cdot \mathbb{E}[z^{X_k}] \\
+		              & = [G(z)]^k
+	\end{align*}
+\end{proof}
+
+\subsection*{Task D: Geometric Distribution}
+\begin{claim}
+	Let \(X \sim \text{Geo}(p)\). The PGF of \(X\) is \(\frac{pz}{1 - z + pz}\)
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		G_{\textrm{Geo}}(z) & = \mathbb{E}[z^X]                                               \\
+		                    & = \sum_{k=0}^\infty P[X = k]z^k                                 \\
+		                    & = 0 \cdot z^0 + \sum_{k=1}^\infty (1-p)^{k-1} \cdot p \cdot z^k \\
+		                    & = \sum_{k=1}^\infty ((1-p) \cdot z)^k \cdot \frac{p}{1-p}       \\
+		                    & = \frac{p}{1 - (1-p) \cdot z}                                   \\
+		                    & = \frac{pz}{1 - z + pz}
+	\end{align*}
+\end{proof}
+
+\subsection*{Task E: Negative Binomial Distribution as Sum of Geometric Variables}
+\begin{claim}\label{clm:one-five}
+	Let \(Y \sim \text{NegBin}(n, p)\), which can be represented as a sum of \(n\) independent geometric random variables. The PGF of \(Y\) is \(G_{Bin}^{n, p^{-1}}(z^{-1})^{-1}\)
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		G_Y^{(n,p)}(z) & = \mathbb{E}[z^Y]                         \\
+		               & = \mathbb{E}[z^{Y_1 + Y_2 + \dots + Y_n}]
+	\end{align*}
+	Using independence and the fact that each \(Y_i \sim \text{Geo}(p)\) with PGF \(G_{Geo}(z)\):
+	\begin{align*}
+		G_Y^{(n,p)}(z) & = G_{Geo}(z) \cdot G_{Geo}(z) \cdot \dots \cdot G_{Geo}(z) \ (\text{n times}) \\
+		               & = [G_{Geo}(z)]^n                                                              \\
+		               & = \left(\frac{pz}{1 - z + pz}\right)^n
+	\end{align*}
+	Furthermore, we know:
+	\begin{align*}
+		G_{Bin}^{n,p}(z)                 & = (pz + (1-p))^n                       \\
+		G_{Bin}^{n, p^{-1}}(z^{-1})^{-1} & = \left(\frac{pz}{1 - z + pz}\right)^n
+	\end{align*}
+	Thus,
+	\begin{align*}
+		G_Y^{(n,p)}(z) & = G_{Bin}^{n, p^{-1}}(z^{-1})^{-1}
+	\end{align*}
+\end{proof}
+
+\subsection*{Task F: Alternative Proof for Negative Binomial Distribution}
+\begin{claim}
+	For \(Y \sim \text{NegBin}(n, p)\), the PGF is given by:
+\end{claim}
+\begin{proof}
+	We start with the series:
+	\begin{align*}
+		G_{Y}^{(n,p)} & = \mathbb{E}[z^Y]                                                         \\
+		              & = \sum_{k=0}^{\infty} P[Y = k] \cdot z^k                                  \\
+		              & = \sum_{k=n}^{\infty} \binom{k-1}{n-1} p^n(1-p)^{k-n}z^k                  \\
+		              & = \sum_{k=0}^{\infty} \binom{n+k-1}{n-1} p^n(1-p)^{k}z^{n+k}              \\
+		              & = (pz)^n \cdot \sum_{k=0}^{\infty} \binom{n+k-1}{n-1} ((1-p) \cdot z)^{k}
+	\end{align*}
+
+	Using claim \ref{clm:one-five}
+
+	\begin{align*}
+		G_{Y}^{(n,p)}                      & = (pz)^n \cdot \sum_{k=0}^{\infty} \binom{n+k-1}{n-1} ((1-p) \cdot z)^{k} \\
+		\left(\frac{pz}{1-z + pz}\right)^n & = (pz)^n \cdot \sum_{k=0}^{\infty} \binom{n+k-1}{n-1} ((1-p) \cdot z)^{k} \\
+	\end{align*}
+	as \(p\) and \(z\) are arbitrary we can substitute \(pz - z = x\)
+
+	\begin{align*}
+		(1+x)^{-n} & = \sum_{k=0}^{\infty} \binom{n+k-1}{n-1} (-x)^{k}     \\
+		           & = \sum_{k=0}^{\infty} (-1)^k \binom{n+k-1}{n-1} x^{k} \\
+		           & = \sum_{k=0}^{\infty} \binom{-n}{k} x^{k}             \\
+	\end{align*}
+\end{proof}
+
+\subsection*{Task G}
+\begin{claim}
+	For any distribution \(X\) with \(PGF = G(z)\), \(\E(X)\) is given by \(G^{'}(1)\)
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		G(z)  & = \mathbb{E}(z^X)                                    \\
+		      & = \sum_{k=0}^{\infty} P[Y = k] \cdot z^k             \\
+		G'(z) & = \sum_{k=0}^{\infty} k \cdot P[Y = k] \cdot z^{k-1} \\
+		G'(1) & = \sum_{k=0}^{\infty} k \cdot P[Y = k]               \\
+		      & = \mathbb{E}(X)
+	\end{align*}
+\end{proof}
+\paragraph{1. Bernoulli Distribution :} Let \(X \sim \textrm{Ber}(p)\)
+\begin{align*}
+	G(z)  & = pz + (1-p)        \\
+	G'(z) & = p                 \\
+	G'(1) & = p = \mathbb{E}(X)
+\end{align*}
+\paragraph{2. Binomial Distribution :}Let \(X \sim \textrm{Bin}(n,p)\)
+\begin{align*}
+	G(z)  & = {(pz + (1-p))^n}     \\
+	G'(z) & = np(pz + (1-p))^{n-1} \\
+	G'(1) & = np = \mathbb{E}(X)
+\end{align*}
+\paragraph{3. Geometric Distribution :}Let \(X \sim \textrm{Geo}(p)\)
+\begin{align*}
+	G(z)     & = \frac{pz}{1-z + pz}                     \\
+	G^{'}(z) & = \frac{p((1-z+pz) - pz(p-1)}{(1-z+pz)^2} \\
+	         & = \frac{p}{(1-z+pz)^2}                    \\
+	G^{'}(1) & = \frac{1}{p} = \mathbb{E}(X)             \\
+\end{align*}
+\paragraph{4. Negative binomial Distribution :}Let \(X \sim \textrm{NegBin}(n,p)\)
+\begin{align*}
+	G(z)     & = \left(\frac{pz}{1-z + pz}\right)^n                               \\
+	G(z)     & =n\left(\frac{pz}{1-z+pz}\right)^{n-1} \times \frac{p}{(1-z+pz)^2} \\
+	G^{'}(1) & = \frac{n}{p} = \mathbb{E}(X)                                      \\
+\end{align*}
+
