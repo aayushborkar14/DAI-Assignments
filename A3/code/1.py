@@ -25,21 +25,26 @@ def cross_validation(p, n, h):
 
 
 J = np.zeros(1000)
+binwidth = np.zeros(1000)
 for bincount in range(1, 1001):
     v, bins = np.histogram(df["D (Mpc)"], bins=bincount, range=(0, 4))
+    binwidth[bincount - 1] = bins[1] - bins[0]
     p = v / n
-    J[bincount - 1] = cross_validation(p, n, bins[1] - bins[0])
+    J[bincount - 1] = cross_validation(p, n, binwidth[bincount - 1])
 
 plt.close()
-plt.plot(list(range(1, 1001)), J)
-plt.xlabel("Number of bins")
+plt.plot(binwidth, J)
+plt.xlabel("Bin width (h)")
 plt.ylabel("Cross-validation score")
 plt.savefig("crossvalidation.png")
 
-optimal_h = np.argmin(J) + 1
-print("The optimal bincount is", optimal_h)
+optimal_count = np.argmin(J) + 1
+optimal_h = binwidth[optimal_count - 1]
+print("The optimal bincount is", optimal_count)
+print("The optimal binwidth is", optimal_h)
 
-plt.hist(df["D (Mpc)"], bins=optimal_h, range=(0, 4))
+plt.close()
+plt.hist(df["D (Mpc)"], bins=optimal_count, range=(0, 4))
 plt.xlabel("Distance (Mpc)")
 plt.ylabel("Count")
 plt.savefig("optimalhistogram.png")
