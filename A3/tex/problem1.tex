@@ -7,17 +7,17 @@ If $x\in B_j$, then
 \end{align*}
 Since $x$ belongs to exactly one $B_j$, we can write
 \begin{align*}
-	\hat{f}(x)   & = \sum_{j=1}^m \frac{v_j}{nh} I(x\in B_j)                                                                                      \\
-	\hat{f}(x)^2 & = \frac{1}{n^2h^2} \left(\sum_{j=1}^m I(x\in B_j) v_j \right)^2                                                                \\
-	             & = \frac{1}{n^2h^2} \left(\sum_{j=1}^m I(x\in B_j)^2 v_j^2 + 2\sum_{1\leq i < j \leq m} I(x \in B_i)I(x \in B_j)v_i v_j \right)
+	\hat{f}(x)   & = \sum_{j=1}^m \frac{v_j}{nh} I\left(x\in B_j\right)                                                                                                 \\
+	\hat{f}(x)^2 & = \frac{1}{n^2h^2} \left(\sum_{j=1}^m I\left(x\in B_j\right) v_j \right)^2                                                                           \\
+	             & = \frac{1}{n^2h^2} \left(\sum_{j=1}^m I\left(x\in B_j\right)^2 v_j^2 + 2\sum_{1\leq i < j \leq m} I\left(x \in B_i\right)I(x \in B_j)v_i v_j \right)
 \end{align*}
-Again, since $x$ belongs to exactly one $B_j$, i.e., $I(x\in B_j)$ for exactly one $j$. Thus, we can say that $I(x\in B_i) I(x\in B_j) = 0$ for distinct $i$ and $j$.
-Also, $I(x\in B_j)^2 = I(x\in B_j)$, as $I(x\in B_j)$ is either 0 or 1. Thus, we can write
+Again, since $x$ belongs to exactly one $B_j$, i.e., $I\left(x\in B_j\right)$ for exactly one $j$. Thus, we can say that $I(x\in B_i) I\left(x\in B_j\right) = 0$ for distinct $i$ and $j$.
+Also, $I\left(x\in B_j\right)^2 = I\left(x\in B_j\right)$, as $I\left(x\in B_j\right)$ is either 0 or 1. Thus, we can write
 \begin{align*}
-	\hat{f}(x)^2         & = \frac{1}{n^2h^2} \sum_{j=1}^m I(x\in B_j) v_j^2         \\
-	\int \hat{f}(x)^2 dx & = \frac{1}{n^2h^2} \sum_{j=1}^m v_j^2 \int I(x\in B_j) dx
+	\hat{f}(x)^2         & = \frac{1}{n^2h^2} \sum_{j=1}^m I\left(x\in B_j\right) v_j^2         \\
+	\int \hat{f}(x)^2 dx & = \frac{1}{n^2h^2} \sum_{j=1}^m v_j^2 \int I\left(x\in B_j\right) dx
 \end{align*}
-$I(x\in B_j)$ is one, only over $B_j$. So, the integral is the length of $B_j$, i.e., $h$. Thus, we can write
+$I\left(x\in B_j\right)$ is one, only over $B_j$. So, the integral is the length of $B_j$, i.e., $h$. Thus, we can write
 \begin{align*}
 	\int \hat{f}(x)^2 dx            & = \frac{1}{n^2h^2} \sum_{j=1}^m v_j^2 h \\
 	\therefore \int \hat{f}(x)^2 dx & = \frac{1}{n^2h} \sum_{j=1}^m v_j^2

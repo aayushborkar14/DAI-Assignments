@@ -1,8 +1,5 @@
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-
-mpl.rcParams["figure.dpi"] = 300
 
 
 # Custom Epanechnikov KDE class
@@ -47,4 +44,4 @@ fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
 ax.plot_surface(X, Y, Z, vmin=Z.min() * 2)
 
 # TODO: Save the plot
-fig.savefig("transaction_distribution.png")
+fig.savefig("transaction_distribution.png", dpi=300)
