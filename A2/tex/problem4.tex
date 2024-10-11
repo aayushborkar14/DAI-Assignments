@@ -114,7 +114,8 @@
 	\(\lim_{x\to\infty} P[|A_n - \mu|] > \epsilon \) = 0
 \end{claim}
 \begin{proof}
-	\paragraph{Let \(S_n = \sum_{i=1}^n X_i \), and \(\delta = \frac{\epsilon}{\mu n }\) \\ Using chernoff bounds}
+	Let \(S_n = \sum_{i=1}^n X_i \), and \(\delta = \frac{\epsilon}{\mu n }\)\\
+	Using chernoff bounds
 	\begin{align*}
 		P[S_n - n \mu \geq n \epsilon]            & \leq e^{\frac{-\epsilon ^2}{\mu (2\mu +\epsilon)}\mu n}                                  \\
 		P[S_n - n\mu \leq - n\epsilon]            & \leq e^{\frac{-\epsilon ^2}{2\mu}n}                                                      \\
