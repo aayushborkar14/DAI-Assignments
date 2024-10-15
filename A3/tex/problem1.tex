@@ -27,7 +27,7 @@ $I\left(x\in B_j\right)$ is one, only over $B_j$. So, the integral is the length
 \vspace{-30pt}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{images/10binhistogram.png}
+	\includegraphics[width=0.6\textwidth]{images/1/10binhistogram.png}
 	\caption{Histogram with 10 bins}
 \end{figure}
 The estimated probabilities for the bins are\\
@@ -35,13 +35,13 @@ The estimated probabilities for the bins are\\
 			0.00588235 0.         0.01176471 0.00588235]}
 
 \subsubsection*{(b)}
-The probability distribution is an underfit, as the histogram has too few bins to capture the distribution of the data. The histogram is too smooth and does not capture the rough peaks of the actual distribution.
+The probability distribution is oversmoothed, as the histogram has too few bins to capture the distribution of the data. It does not capture the rough peaks of the actual distribution.
 
 \subsubsection*{(c)}
 \vspace{-30pt}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{images/crossvalidation.png}
+	\includegraphics[width=0.6\textwidth]{images/1/crossvalidation.png}
 	\caption{Cross-validation score for 1-1000 bins}
 \end{figure}
 
@@ -52,7 +52,7 @@ Based on the cross-validation score, the optimal value of bin width is 0.083, an
 \vspace{-30pt}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{images/optimalhistogram.png}
+	\includegraphics[width=0.6\textwidth]{images/1/optimalhistogram.png}
 	\caption{Histogram with 48 bins}
 \end{figure}
 
