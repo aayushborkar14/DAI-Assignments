@@ -15,11 +15,11 @@ class EpanechnikovKDE:
     def epanechnikov_kernel(self, x, xi):
         """Epanechnikov kernel function."""
         a = np.linalg.norm((x - xi) / self.bandwidth, axis=-1)
-        return np.where(a <= 1, 3 / 4 * (1 - a**2), 0)[()]
+        return np.where(a <= 1, (2 / np.pi) * (1 - a**2), 0)[()]
 
     def evaluate(self, x):
         """Evaluate the KDE at point x."""
-        return self.epanechnikov_kernel(x, self.data).mean() / self.bandwidth
+        return self.epanechnikov_kernel(x, self.data).mean() / self.bandwidth**2
 
 
 # Load the data from the NPZ file
