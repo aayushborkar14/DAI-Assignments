@@ -41,7 +41,9 @@ for x in range(X.shape[0]):
     for y in range(X.shape[1]):
         Z[x, y] = epanechnikov_kde.evaluate(np.array([X[x, y], Y[x, y]]))
 fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-ax.plot_surface(X, Y, Z, vmin=Z.min() * 2)
+surface = ax.plot_surface(X, Y, Z, cmap="viridis", edgecolor="none", vmin=Z.min() * 2)
+fig.colorbar(surface, ax=ax, shrink=0.5, aspect=5)
+plt.subplots_adjust(left=0.05, right=0.95, top=0.95, bottom=0.05)
 
 # TODO: Save the plot
 fig.savefig("transaction_distribution.png", dpi=300)
