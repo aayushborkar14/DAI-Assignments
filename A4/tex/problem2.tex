@@ -1,0 +1,23 @@
+\section{Forecasting on a Real World Dataset.}
+\subsubsection{Predicting \texttt{PASSENGERS CARRIED}}
+The code along with explanation is given in \texttt{2-1a.ipynb}, \texttt{2-1b.ipynb} and \texttt{2-1c.ipynb} respectively.
+
+\subsubsection{Why MAPE is not the best metric?}
+MAPE may not be the best metric to evaluate the forecasts because:
+\[\text{MAPE} = \frac{1}{n} \sum_{i=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right| \times 100\]
+\begin{itemize}
+	\item Gives misleading results when the data has close to zero values, as the denominator is very small.
+	\item Doesn't capture the assymetric cost of errors, i.e., positive and negative errors are treated equally while in reality one results in understaffing, while the other results in overstaffing.
+\end{itemize}
+
+For fleet management, we focus on the total number of passengers carried. Instead of MAPE, we can use RMSE
+\[\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}\]
+For human resources, we focus on the peak demand. In this case, we can use peak weighted RMSE
+\[ \text{Peak weighted RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} w_i (y_i - \hat{y}_i)^2}\]
+where $w_i$ is the weight of the $i$-th observation.
+
+\subsubsection{Testing if mean is different pre and post COVID}
+To test if the mean, $\mu$, differs between the pre-COVID and post-COVID periods,
+we can perform a \textbf{two-sample t-test}. This test compares the means of two independent groups (in this case, the pre-COVID period before December 2019 and the post-COVID period after January 2022) to determine if there is a significant difference in μ between them.
+Since we assume the data is weakly stationary and normally distributed with a known variance,
+this test would be appropriate to assess if there is a change in the mean differenced series across these two periods.
